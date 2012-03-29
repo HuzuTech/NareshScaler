@@ -1,0 +1,7 @@
+# git ignore file
+*Resharper*
+packages*
+/src/NareshScaler.Runner/bin*
+/src/NareshScaler.Runner/obj*
+*.nupkg
+*.suo
