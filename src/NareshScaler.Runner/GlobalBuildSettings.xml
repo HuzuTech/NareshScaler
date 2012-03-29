@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Set up the properties appropriate for your local environment-->
+<project name="GlobalBuildSettings">
+
+    <!--The name of your solution-->
+    <property name="solution.name" value="NareshScaler"/>
+
+    <!--The position of your solution.sln file relative to the Nant.build file, most likely either .. or ../..-->
+    <property name="relative.solution.file.dir" value="../.." />
+
+    <!--The name of the project containing the Selenium integration tests, ie YourSolution.IntegrationTests-->
+    <property name="integration.test.project.name" value="NareshScaler.Runner" />
+
+    <!-- The location of the project containing the Selenium integration tests bin directory, relative to the location of the solution file -->
+    <property name="relative.integration.test.project.bin.dir" value="\src\NareshScaler.Runner\bin" />
+
+    <!--Location where you want source built in your local workspace -->
+    <property name="local.buildspace" value="C:\_dev\Builds"/>
+
+    <!--Location where Msbuild for .Net 4.0 is installed-->
+    <property name="msbuild4.exe" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"/>
+
+    <!--Location where NUnit is installed locally-->
+    <property name="nunit-console.exe" value="C:\Program Files (x86)\NUnit 2.6\bin\nunit-console.exe"/>
+</project>

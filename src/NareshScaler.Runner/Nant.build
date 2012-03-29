@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project default="buildRelease" basedir=".">
+
+    <!--Pick up local settings - IMPORTANT PLEASE SET THESE VALUES APPROPRIATELY FOR YOUR ENVIRONMENT IN GLOBALBUILDSETTINGS.XML-->
+    <include buildfile="GlobalBuildSettings.xml" />
+
+
+    <property name="project.buildspace.dir" value="${path::combine(local.buildspace, solution.name)}" />
+
+    <!-- You can wire up this project in CCNet and run your integrations nightly-->
+    <property name="is.releaselocal" value="true"/>
+    <target name="determineBuild" description="Set appropriate variables depending if this is a local or CCNet build">
+        <if test="${property::exists('CCNetLabel')}">
+            <property name="is.releaselocal" value="false"/>
+        </if>
+    </target>
+
+
+    <target name="cleanLocalBuildspace">
+        <!-- Ensure clean project assembly workspace directory for local builds -->
+        <echo message="Deleting dir ${project.buildspace.dir}"/>
+        <delete dir="${project.buildspace.dir}"/>
+        <mkdir dir="${project.buildspace.dir}" />
+        
+        <!--Required for master build only-->
+        <property name="master.build" value="false" />
+        <if test="${file::exists('NareshScaler.Runner.nuspec')}">
+            <property name="master.build" value="true" />
+        </if>
+    </target>
+    
+
+    <!-- Copy files to build space -->
+    <target name="AssembleFromWorkspace" depends="cleanLocalBuildspace">
+        <echo message="Assemble from workspace ${relative.solution.file.dir} to ${project.buildspace.dir}"/>
+        <echo message="Is master.build: ${master.build}"/>
+        <copy todir="${project.buildspace.dir}" verbose="true" includeemptydirs="false">
+            <fileset basedir="${relative.solution.file.dir}">
+                <include name="**/*" />
+                <exclude name="**/packages/**" unless="${master.build}"/>
+                <exclude name="**/bin/**"/>
+                <exclude name="**/obj/**"/>
+                <exclude name="*/Release/**" />
+                <exclude name="*/Debug/**" />
+                <exclude name="TestResults/**"/>
+                <exclude name="**/*.user" />
+            </fileset>
+        </copy>
+    </target>
+
+
+    <!-- Use msbuild to compile specified project -->
+    <target name="CompileProject" description="Compiles the current project" >
+        <echo message="Compiling NareshScaler with configuration: Release"/>
+        <exec program="${msbuild4.exe}">
+            <arg value="${project.buildspace.dir}/${solution.name}.sln" />
+            <arg value="/v:m" />
+            <arg value="/p:Configuration=Release" />
+            <arg value="/p:WarningLevel=4" />
+            <arg value="/p:TreatWarningsAsErrors=true"/>
+        </exec>
+    </target>
+
+    
+    <target name="RunTests">
+        <echo message="Running Nunit"/>
+        <exec program="${nunit-console.exe}">
+            <arg value="${project.buildspace.dir}${relative.integration.test.project.bin.dir}\Release\${integration.test.project.name}.dll" />
+            <arg value="/xml=${project.buildspace.dir}${relative.integration.test.project.bin.dir}\Release\${integration.test.project.name}-results.xml" />
+        </exec>
+    </target>
+    
+
+    <!-- This target controls the build-->
+    <target name="buildRelease" description="Build the release, and run integration tests" depends="determineBuild">
+
+        <call target="AssembleFromWorkspace"/>
+
+        <call target="CompileProject"/>
+
+        <call target="RunTests"/>
+
+    </target>
+</project>
+
