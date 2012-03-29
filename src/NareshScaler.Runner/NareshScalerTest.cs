@@ -37,7 +37,7 @@ namespace NareshScaler.Runner
             var packagesDir = LocateDir(currentDir, "packages");
 
             // TODO - Should pick up build number from Assembly
-            var driverDir = new DirectoryInfo(packagesDir).FullName + "\\NareshScaler.1.0.0.12\\bin\\";
+            var driverDir = new DirectoryInfo(packagesDir).FullName + "\\NareshScaler.1.0.0.13\\bin\\";
 
             try
             {
