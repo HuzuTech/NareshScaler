@@ -5,3 +5,4 @@ packages*
 /src/NareshScaler.Runner/obj*
 *.nupkg
 *.suo
+TestResult.xml
