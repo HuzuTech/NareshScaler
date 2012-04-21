@@ -17,6 +17,11 @@ namespace NareshScaler.Runner.Samples
         {
             baseURL = "http://nuget.org/";
             verificationErrors = new StringBuilder();
+
+            // You can disable a particular browser for a particular class, by setting below values to false
+            // NareshScalerSettings.Default.ChromeEnabled = false;
+            // NareshScalerSettings.Default.FirefoxEnabled = false;
+            // NareshScalerSettings.Default.IEEnabled = false;
         }
         
         [TearDown]

@@ -31,13 +31,16 @@ namespace NareshScaler.Runner
         [Test]
         public virtual void ChromeTest()
         {
+            if (!NareshScalerSettings.Default.ChromeEnabled)
+                return;
+
             //Set the lib dir for the running solution
             var currentDir = Directory.GetCurrentDirectory();
 
             var packagesDir = LocateDir(currentDir, "packages");
 
             // TODO - Should pick up build number from Assembly
-            var driverDir = new DirectoryInfo(packagesDir).FullName + "\\NareshScaler.1.0.0.14\\bin\\";
+            var driverDir = new DirectoryInfo(packagesDir).FullName + "\\NareshScaler.1.0.0.18\\bin\\";
 
             try
             {
@@ -62,6 +65,9 @@ namespace NareshScaler.Runner
         [Test]
         public virtual void FirefoxTest()
         {
+            if (!NareshScalerSettings.Default.FirefoxEnabled)
+                return;
+
             FirefoxDriver = new FirefoxDriver();
             FirefoxDriver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
 
@@ -74,6 +80,9 @@ namespace NareshScaler.Runner
         [Test]
         public virtual void IETest()
         {
+            if (!NareshScalerSettings.Default.IEEnabled)
+                return;
+
             IEDriver = new InternetExplorerDriver();
             IEDriver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
             RunSeleniumTests(IEDriver);
