@@ -2,7 +2,7 @@
 <package >
     <metadata>
         <id>NareshScaler</id>
-        <version>1.0.0.13</version>
+        <version>1.0.0.14</version>
         <title>Naresh Scaler</title>
         <authors>Iain Hunter</authors>
         <owners>Huzutech.com</owners>
@@ -12,12 +12,12 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <summary>Naresh Scaler provides a simple way of managing and running Selenium C# Web Driver tests</summary>
         <description>Naresh Scaler provides a simple framework to run your Selenium C# WebDriver integration tests automatically using Firefox, Chrome and IE.  Just install it into an empty C# class library, and look at the sample class provided to see how it works.  Named in honour of Huzutech's QA maestro Naresh Deekonda - the man who required Selenium to scale :-)</description>
-        <releaseNotes>Rename abstract base method to make it more meaningful</releaseNotes>
+        <releaseNotes>Update Selenium-Webdriver to latest version</releaseNotes>
         <copyright>Copyright 2012</copyright>
         <tags>selenium, webdriver test runner chromedriver firefox ie nunit nant, integration testing</tags>
         <dependencies>
             <dependency id="NUnit" version="2.6.0.12054" />
-            <dependency id="Selenium.WebDriver" version="2.20.0" />
+            <dependency id="Selenium.WebDriver" version="2.21.0" />
         </dependencies>
     </metadata>
     <files>
