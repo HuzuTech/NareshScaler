@@ -34,13 +34,7 @@ namespace NareshScaler.Runner
             if (!NareshScalerSettings.Default.ChromeEnabled)
                 return;
 
-            //Set the lib dir for the running solution
-            var currentDir = Directory.GetCurrentDirectory();
-
-            var packagesDir = LocateDir(currentDir, "packages");
-
-            // TODO - Should pick up build number from Assembly
-            var driverDir = new DirectoryInfo(packagesDir).FullName + "\\NareshScaler.1.0.0.21\\bin\\";
+            var driverDir = GetDriverDirectory();
 
             try
             {
@@ -49,7 +43,7 @@ namespace NareshScaler.Runner
             catch (Exception)
             {
                 // Only for master build
-                var masterLibDir = LocateDir(currentDir, "lib");
+                var masterLibDir = LocateDir(Directory.GetCurrentDirectory(), "lib");
                 ChromeDriver = new ChromeDriver(masterLibDir);
             }
             
@@ -57,6 +51,17 @@ namespace NareshScaler.Runner
 
             // Moved out of try catch block to trigger error on build server.
             RunSeleniumTests(ChromeDriver);
+        }
+
+        private static string GetDriverDirectory()
+        {
+            //Set the lib dir for the running solution
+            var currentDir = Directory.GetCurrentDirectory();
+
+            var packagesDir = LocateDir(currentDir, "packages");
+
+            // TODO - Should pick up build number from Assembly
+            return new DirectoryInfo(packagesDir).FullName + "\\NareshScaler.1.0.0.21\\bin\\";
         }
 
         /// <summary>
@@ -83,7 +88,20 @@ namespace NareshScaler.Runner
             if (!NareshScalerSettings.Default.IEEnabled)
                 return;
 
-            IEDriver = new InternetExplorerDriver();
+            var driverDir = GetDriverDirectory();
+
+            try
+            {
+                IEDriver = new InternetExplorerDriver(driverDir);
+            }
+            catch (Exception)
+            {
+                // Only for master build
+                var masterLibDir = LocateDir(Directory.GetCurrentDirectory(), "lib");
+                IEDriver = new InternetExplorerDriver(masterLibDir);
+            }
+
+            //IEDriver = new InternetExplorerDriver();
             IEDriver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
             RunSeleniumTests(IEDriver);
         }
