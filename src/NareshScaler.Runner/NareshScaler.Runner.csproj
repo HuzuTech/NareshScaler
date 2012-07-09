@@ -71,9 +71,6 @@
     <None Include="Nant.build">
       <SubType>Designer</SubType>
     </None>
-    <None Include="NareshScaler.Runner.nuspec">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="NareshScalerSettings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>NareshScalerSettings.Designer.cs</LastGenOutput>

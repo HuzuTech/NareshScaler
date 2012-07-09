@@ -186,4 +186,34 @@
 		</exec>
 	</target>
 
+
+	<target name="CreateNugetPackage">
+
+		<!--Insert build number into nuspec package-->
+		<xmlpoke
+			file="${buildspace.src.dir}/NareshScaler.Build/Nuget/NareshScaler.Runner.nuspec"
+			xpath="//x:package/x:metadata/x:version"
+			value="${version.tag}">
+			<namespaces>
+				<namespace prefix="x" uri="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" />
+			</namespaces>
+		</xmlpoke>
+
+		<exec program="${nuget.exe}" commandline="pack ${buildspace.src.dir}/NareshScaler.Build/Nuget/NareshScaler.Runner.nuspec" />
+
+		<copy todir="${local.releasespace}/${solution.name}" verbose="true" includeemptydirs="false">
+			<fileset basedir=".">
+				<include name="**/*.nupkg" />
+			</fileset>
+		</copy>
+
+		<!-- Clear up the package after build-->
+		<delete>
+			<fileset>
+				<include name="*.nupkg" />
+			</fileset>
+		</delete>
+
+	</target>
+
 </project>

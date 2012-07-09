@@ -22,4 +22,7 @@
 	
 	<!--Location for Nunit Console-->
 	<property name="nunit-console.exe" value="C:\dev\tools\NUnit 2.6\bin\nunit-console.exe" />
+
+	<!--Location for Nuget -->
+	<property name="nuget.exe" value="C:\dev\tools\nuget.exe" />
 </project>

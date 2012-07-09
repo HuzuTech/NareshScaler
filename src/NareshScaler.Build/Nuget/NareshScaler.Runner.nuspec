@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package >
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>NareshScaler</id>
         <version>1.0.0.23</version>
@@ -12,20 +12,20 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <summary>Naresh Scaler provides a simple way of managing and running Selenium C# Web Driver tests</summary>
         <description>Naresh Scaler provides a simple framework to run your Selenium C# WebDriver integration tests automatically using Firefox, Chrome and IE.  Just install it into an empty C# class library, and look at the sample class provided to see how it works.  Named in honour of Huzutech's QA maestro Naresh Deekonda - the man who required Selenium to scale :-)</description>
-        <releaseNotes>Add missing IEDriverServer dependency, version 2.24</releaseNotes>
+        <releaseNotes>Update to Selenium 2.24</releaseNotes>
         <copyright>Copyright 2012</copyright>
         <tags>selenium, webdriver test runner chromedriver firefox ie nunit nant, integration testing iedriverserver iedriver</tags>
         <dependencies>
             <dependency id="NUnit" version="2.6.0.12054" />
-            <dependency id="Selenium.WebDriver" version="2.23.0" />
+            <dependency id="Selenium.WebDriver" version="2.24.0" />
         </dependencies>
     </metadata>
     <files>
-        <file src="\obj\release\*.dll*" target="lib\net40" />
-        <file src="..\..\lib\chromedriver.exe*" target="bin" />
-		<file src="..\..\lib\IEDriverServer.exe*" target="bin" />
-        <file src="\Samples\*.cs" target="content\NareshScalerSamples" />
-        <file src="Nant.build" target="content" />
-        <file src="GlobalBuildSettings.xml" target="content" />
+        <file src="..\..\NareshScaler.Runner\obj\release\*.dll*" target="lib\net40" />
+        <file src="..\..\..\lib\chromedriver.exe*" target="bin" />
+		<file src="..\..\..\lib\IEDriverServer.exe*" target="bin" />
+        <file src="..\..\NareshScaler.Runner\Samples\*.cs" target="content\NareshScalerSamples" />
+        <file src="..\..\NareshScaler.Runner\Nant.build" target="content\NareshScalerSamples" />
+        <file src="..\..\NareshScaler.Runner\GlobalBuildSettings.xml" target="content\NareshScalerSamples" />
     </files>
 </package>

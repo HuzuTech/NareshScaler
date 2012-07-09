@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -60,8 +61,10 @@ namespace NareshScaler.Runner
 
             var packagesDir = LocateDir(currentDir, "packages");
 
+        	var assemblyVer = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
             // TODO - Should pick up build number from Assembly
-            return new DirectoryInfo(packagesDir).FullName + "\\NareshScaler.1.0.0.23\\bin\\";
+            return new DirectoryInfo(packagesDir).FullName + "\\NareshScaler." + assemblyVer + "\\bin\\";
         }
 
         /// <summary>
