@@ -1,8 +1,9 @@
 # git ignore file
 *Resharper*
-packages*
+packages/*
 /src/NareshScaler.Runner/bin*
 /src/NareshScaler.Runner/obj*
+/src/NareshScaler.Build/obj*
 *.nupkg
 *.suo
 TestResult.xml
