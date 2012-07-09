@@ -37,7 +37,9 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="DeployAzureApp.ps1" />
-    <None Include="Nant.build" />
+    <None Include="Nant.build">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Nuget\NareshScaler.Runner.nuspec">
       <SubType>Designer</SubType>
     </None>
