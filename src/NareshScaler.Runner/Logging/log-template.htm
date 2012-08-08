@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Automated Build Report</title>
+    <style type="text/css">
+        body 
+        {
+            padding:20px;
+            margin:3em 0px 0px;
+        }
+    
+        #header
+        {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:100%;
+            padding:1em;
+            background: #00B;
+            color:#fff;
+        }
+        
+        #header h1
+        {
+            padding:0px;
+            margin:0px;
+        }
+        
+        table
+        {
+            width:100%;
+            min-width:800px;
+            border-collapse:collapse;
+            border:1px solid #000;
+        }
+
+        th, td
+        {
+            padding:5px;
+            text-align:left;
+            border:1px solid #ddd;
+        }
+
+        th
+        {
+            background:#eee;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="header">
+    <h1>Build Report</h1>
+    </div>
+    <h3>Error List</h3>
+    <table id="error-report">
+        <thead>
+            <tr>
+                <th>Browser</th>
+                <th>Failing Test</th>
+                <th>Description / Detail </th>
+                <th>Screenshot</th>
+            </tr>
+        </thead>
+        <tbody>
+		<!--error-placeholder-->
+        </tbody>
+    </table>
+</body>
+</html>
