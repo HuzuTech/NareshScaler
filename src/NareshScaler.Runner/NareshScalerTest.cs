@@ -68,7 +68,6 @@ namespace NareshScaler.Runner
 
         	var assemblyVer = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            // TODO - Should pick up build number from Assembly
             return new DirectoryInfo(packagesDir).FullName + "\\NareshScaler." + assemblyVer + "\\bin\\";
         }
 
@@ -109,8 +108,9 @@ namespace NareshScaler.Runner
                 IEDriver = new InternetExplorerDriver(masterLibDir);
             }
 
-            //IEDriver = new InternetExplorerDriver();
             IEDriver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
+
+
             RunSeleniumTests(IEDriver);
         }
 
@@ -119,7 +119,7 @@ namespace NareshScaler.Runner
         /// </summary>
         private static string LocateDir(string currentDir, string dirToFind)
         {
-            return @"C:\Workspace\NareshScaler\lib\";
+            //return @"C:\Workspace\NareshScaler\lib\";
 
             // Locate the packages dir in the running solution
             if (currentDir.ToLower().Contains(dirToFind))
@@ -152,8 +152,8 @@ namespace NareshScaler.Runner
         public virtual void FixtureSetup()
         {
             // define the output directory for the build reports
-            LogFileDirectory = @"c:\test-reports\";
-            LogFileName = LogFileDirectory + "build-report-" + DateTime.Now.ToString("-MMdd-HHmm") + ".html";
+        	LogFileDirectory = NareshScalerSettings.Default.LogfilePath;
+            LogFileName = LogFileDirectory + "\build-report-" + DateTime.Now.ToString("-MMdd-HHmm") + ".html";
             ErrorList = new Dictionary<string, dynamic>();
             ErrorRowFormat = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><a href='{3}'>screenshot</a></td></tr>";
         }
@@ -165,7 +165,7 @@ namespace NareshScaler.Runner
         public virtual void FixtureTearDown()
         {
             // get the log template file
-            var html = NareshScaler.Runner.Properties.Resources.log_template;
+            var html = Properties.Resources.log_template;
 
             // write each error into a stringbuilder
             var htmlErorrs = new StringBuilder();
