@@ -66,7 +66,7 @@ namespace NareshScaler.Runner
 			catch (Exception e)
 			{
 
-				RecordError(FirefoxDriver, CurrentlyRunningTest, e);
+				RecordError(ChromeDriver, CurrentlyRunningTest, e);
 				throw;
 			}
 			
