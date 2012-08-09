@@ -19,12 +19,12 @@ namespace NareshScaler.Runner.Samples
 			verificationErrors = new StringBuilder();
 
 			// You can disable a particular browser for a particular class, by setting below values to false
-			NareshScalerSettings.Default.ChromeEnabled = false;
+			//NareshScalerSettings.Default.ChromeEnabled = false;
 			// NareshScalerSettings.Default.FirefoxEnabled = false;
 			// NareshScalerSettings.Default.IEEnabled = false;
 
 			// Enable logging by setting this value to true
-			NareshScalerSettings.Default.LoggingEnabled = true;
+			//NareshScalerSettings.Default.LoggingEnabled = true;
 		}
 		
 		[TearDown]
@@ -47,7 +47,7 @@ namespace NareshScaler.Runner.Samples
 			driver.FindElement(By.Id("searchBoxInput")).Clear();
 			driver.FindElement(By.Id("searchBoxInput")).SendKeys("NareshScaler");
 			driver.FindElement(By.Id("searchBoxSubmit")).Click();
-			driver.FindElement(By.LinkText("Naresh Scalerxx")).Click();
+			driver.FindElement(By.LinkText("Naresh Scaler")).Click();
 		}
 
 		public void Test_That_Nant_Builder_Exists_On_NugetOrg()
