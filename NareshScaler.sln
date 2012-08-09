@@ -4,10 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NareshScaler.Runner", "src\NareshScaler.Runner\NareshScaler.Runner.csproj", "{ACE27D62-E41E-4393-B6D2-397D3A2F3236}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{0D7B1370-6050-43A8-AE81-1862AEE6F190}"
-	ProjectSection(SolutionItems) = preProject
-		lib\chromedriver.exe = lib\chromedriver.exe
-		lib\IEDriverServer.exe = lib\IEDriverServer.exe
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FF39ACE9-7A70-4A9E-9CEC-9E75AC9A2125}"
 	ProjectSection(SolutionItems) = preProject

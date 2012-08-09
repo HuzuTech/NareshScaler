@@ -25,6 +25,9 @@ namespace NareshScaler.Runner.Samples
 
 			// Enable logging by setting this value to true
 			//NareshScalerSettings.Default.LoggingEnabled = true;
+
+			//Logs are generated in C:\dev\logs\NareshScaler by default, you can change this using this setting
+			//NareshScalerSettings.Default.LogfilePath = @"C:\dev\logs\NareshScaler";
 		}
 		
 		[TearDown]
