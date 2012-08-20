@@ -6,7 +6,7 @@
         <title>Naresh Scaler</title>
         <authors>Iain Hunter</authors>
         <owners>Huzutech.com</owners>
-        <projectUrl>https://github.com/hunt3ri/NareshScaler</projectUrl>
+        <projectUrl>https://github.com/HuzuTech/NareshScaler</projectUrl>
         <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
         <iconUrl>http://huzusocial-huzutech-media.s3.amazonaws.com/54dfed76-daa7-430d-9c39-a876867f43fe.jpg</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -16,7 +16,7 @@
         <copyright>Copyright 2012</copyright>
         <tags>selenium, webdriver test runner chromedriver firefox ie nunit nant, integration testing iedriverserver iedriver</tags>
         <dependencies>
-            <dependency id="NUnit" version="2.6.0.12054" />
+            <dependency id="NUnit" version="2.6.1" />
             <dependency id="Selenium.WebDriver" version="2.25.1" />
         </dependencies>
     </metadata>
