@@ -12,10 +12,10 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="LogfilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\dev\logs\NareshScaler</Value>
+      <Value Profile="(Default)">C:\test-reports</Value>
     </Setting>
     <Setting Name="LoggingEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

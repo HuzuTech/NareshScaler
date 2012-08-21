@@ -61,7 +61,7 @@ namespace NareshScaler.Runner {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\dev\\logs\\NareshScaler")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\test-reports")]
         public string LogfilePath {
             get {
                 return ((string)(this["LogfilePath"]));
@@ -73,7 +73,7 @@ namespace NareshScaler.Runner {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool LoggingEnabled {
             get {
                 return ((bool)(this["LoggingEnabled"]));
