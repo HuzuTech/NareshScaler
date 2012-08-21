@@ -192,6 +192,11 @@ namespace NareshScaler.Runner
 		[TestFixtureTearDown]
 		public virtual void FixtureTearDown()
 		{
+            // if logging is disabled, dont write out the log file
+            if (!NareshScalerSettings.Default.LoggingEnabled)
+                return;
+
+
 			// get the log template file
 			var html = Properties.Resources.log_template;
 
