@@ -17,10 +17,7 @@ namespace NareshScaler.Runner
 
 	public abstract class NareshScalerTest
 	{
-		public FirefoxDriver FirefoxDriver;
-		public InternetExplorerDriver IEDriver;
-		public ChromeDriver ChromeDriver;
-
+        public IWebDriver Driver;
 		public TimeSpan DefaultTimeOutValue;
 
 		public string CurrentlyRunningTest = "Not specified, set CurrentRunningTest var prior to running each test";
@@ -47,41 +44,27 @@ namespace NareshScaler.Runner
 
 			try
 			{
-				ChromeDriver = new ChromeDriver(driverDir);
+                Driver = new ChromeDriver(driverDir);
 			}
 			catch (Exception)
 			{
 				// Only for master build
 				var masterLibDir = LocateDir(Directory.GetCurrentDirectory(), "lib");
-				ChromeDriver = new ChromeDriver(masterLibDir);
+                Driver = new ChromeDriver(masterLibDir);
 			}
-			
-			ChromeDriver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
+
+            Driver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
 
 
 			try
 			{
-				RunSeleniumTests(ChromeDriver);
-			}
+                RunSeleniumTests();
+                Driver.Quit();
+            }
 			catch (Exception e)
 			{
-
-				RecordError(ChromeDriver, CurrentlyRunningTest, e);
-				throw;
+                RecordError(e);
 			}
-			
-		}
-
-		private static string GetDriverDirectory()
-		{
-			//Set the lib dir for the running solution
-			var currentDir = Directory.GetCurrentDirectory();
-
-			var packagesDir = LocateDir(currentDir, "packages");
-
-			var assemblyVer = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-			return new DirectoryInfo(packagesDir).FullName + "\\NareshScaler." + assemblyVer + "\\bin\\";
 		}
 
 		/// <summary>
@@ -93,18 +76,18 @@ namespace NareshScaler.Runner
 			if (!NareshScalerSettings.Default.FirefoxEnabled)
 				return;
 
-			FirefoxDriver = new FirefoxDriver();
-			FirefoxDriver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
+            Driver = new FirefoxDriver();
+            Driver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
 
-			try
-			{
-				RunSeleniumTests(FirefoxDriver);
-			}
-			catch (Exception e)
-			{
-				RecordError(FirefoxDriver, CurrentlyRunningTest, e);
-				throw;
-			}
+            try
+            {
+                RunSeleniumTests();
+                Driver.Quit();
+            }
+            catch (Exception e)
+            {
+                RecordError(e);
+            }
 		}
 
 		/// <summary>
@@ -120,31 +103,92 @@ namespace NareshScaler.Runner
 
 			try
 			{
-				IEDriver = new InternetExplorerDriver(driverDir);
+                Driver = new InternetExplorerDriver(driverDir);
 			}
 			catch (Exception)
 			{
 				// Only for master build
 				var masterLibDir = LocateDir(Directory.GetCurrentDirectory(), "lib");
-				IEDriver = new InternetExplorerDriver(masterLibDir);
+                Driver = new InternetExplorerDriver(masterLibDir);
 			}
 
-			IEDriver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
+            Driver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
 
-			try
-			{
-				RunSeleniumTests(IEDriver);
-			}
-			catch (Exception e)
-			{
-				RecordError(IEDriver, CurrentlyRunningTest, e);
-				
-				throw;
-			}
-			
+            try
+            {
+                RunSeleniumTests();
+                Driver.Quit();
+            }
+            catch (Exception e)
+            {
+                RecordError(e);
+            }
 		}
 
-		/// <summary>
+        /// <summary>
+        /// Override this method and use it to run any selenium methods created by the
+        /// Selenium Webdriver.
+        /// </summary>
+        /// <param name="webDriver"></param>
+        public abstract void RunSeleniumTests();
+
+        /// <summary>
+        /// Setup method called prior to any tests being ran
+        /// </summary>
+        [TestFixtureSetUp]
+        public virtual void FixtureSetup()
+        {
+            // define the output directory for the build reports
+            LogFileDirectory = NareshScalerSettings.Default.LogfilePath;
+            LogFileName = LogFileDirectory + "\\build-report" + DateTime.Now.ToString("-MMdd-HHmm") + ".html";
+            ErrorList = new Dictionary<string, dynamic>();
+            ErrorRowFormat = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><a href='{3}'>screenshot</a></td></tr>";
+        }
+
+        /// <summary>
+        /// TearDown method called after all tests have ran
+        /// </summary>
+        [TestFixtureTearDown]
+        public virtual void FixtureTearDown()
+        {
+            // if logging is disabled, dont write out the log file
+            if (!NareshScalerSettings.Default.LoggingEnabled)
+                return;
+
+
+            // get the log template file
+            var html = Properties.Resources.log_template;
+
+            // write each error into a stringbuilder
+            var htmlErorrs = new StringBuilder();
+            foreach (var error in ErrorList)
+            {
+                htmlErorrs.AppendFormat(ErrorRowFormat, error.Value.Browser, error.Value.TestName, error.Value.Description, error.Value.Screenshot);
+            }
+
+            // Replace your placeholder in the log file with the list of errors that occurred during testing
+            html = html.Replace("<!--error-placeholder-->", htmlErorrs.ToString());
+
+            using (var sw = new StreamWriter(LogFileName))
+            {
+                sw.WriteLine(html);
+            }
+        }
+
+        private static string GetDriverDirectory()
+        {
+            //Set the lib dir for the running solution
+            var currentDir = Directory.GetCurrentDirectory();
+
+            var packagesDir = LocateDir(currentDir, "packages");
+
+            var assemblyVer = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            return new DirectoryInfo(packagesDir).FullName + "\\NareshScaler." + assemblyVer + "\\bin\\";
+        }
+        
+
+        /// <summary>
 		/// Helper method to look discover where the ChromeDriver executeable lives
 		/// </summary>
 		private static string LocateDir(string currentDir, string dirToFind)
@@ -167,61 +211,11 @@ namespace NareshScaler.Runner
 		}
 
 		/// <summary>
-		/// Override this method and use it to run any selenium methods created by the
-		/// Selenium Webdriver.
-		/// </summary>
-		/// <param name="webDriver"></param>
-		public abstract void RunSeleniumTests(IWebDriver webDriver);
-
-		/// <summary>
-		/// Setup method called prior to any tests being ran
-		/// </summary>
-		[TestFixtureSetUp]
-		public virtual void FixtureSetup()
-		{
-			// define the output directory for the build reports
-			LogFileDirectory = NareshScalerSettings.Default.LogfilePath;
-			LogFileName = LogFileDirectory + "\\build-report" + DateTime.Now.ToString("-MMdd-HHmm") + ".html";
-			ErrorList = new Dictionary<string, dynamic>();
-			ErrorRowFormat = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><a href='{3}'>screenshot</a></td></tr>";
-		}
-
-		/// <summary>
-		/// TearDown method called after all tests have ran
-		/// </summary>
-		[TestFixtureTearDown]
-		public virtual void FixtureTearDown()
-		{
-            // if logging is disabled, dont write out the log file
-            if (!NareshScalerSettings.Default.LoggingEnabled)
-                return;
-
-
-			// get the log template file
-			var html = Properties.Resources.log_template;
-
-			// write each error into a stringbuilder
-			var htmlErorrs = new StringBuilder();
-			foreach (var error in ErrorList)
-			{
-				htmlErorrs.AppendFormat(ErrorRowFormat, error.Value.Browser, error.Value.TestName, error.Value.Description, error.Value.Screenshot);
-			}
-
-			// Replace your placeholder in the log file with the list of errors that occurred during testing
-			html = html.Replace("<!--error-placeholder-->", htmlErorrs.ToString());
-
-			using (var sw = new StreamWriter(LogFileName))
-			{
-				sw.WriteLine(html);
-			}
-		}
-
-		/// <summary>
 		/// Record details of an error that was detected during testing
 		/// </summary>
-		protected void RecordError(IWebDriver driver, string failingTest, Exception ex)
+        protected void RecordError(Exception ex)
 		{
-			if (!NareshScalerSettings.Default.LoggingEnabled)
+			if (!NareshScalerSettings.Default.LoggingEnabled) 
 				return;
 
 			if (!Directory.Exists(LogFileDirectory))
@@ -232,29 +226,31 @@ namespace NareshScaler.Runner
 			if (!Directory.Exists(screenshotsDir))
 				Directory.CreateDirectory(screenshotsDir);
 
-			var screenshotFilename = string.Format(screenshotsDir + @"\{0}-{1}.png", failingTest, DateTime.Now.ToString("MMdd-HHmm"));
+			var screenshotFilename = string.Format(screenshotsDir + @"\{0}-{1}.png", CurrentlyRunningTest, DateTime.Now.ToString("MMdd-HHmm"));
 			
 			dynamic error = new ExpandoObject();
-			error.Browser = driver.GetType().Name;
-			error.TestName = failingTest;
+            error.Browser = Driver.GetType().Name;
+            error.TestName = CurrentlyRunningTest;
 			error.Description = ex.Message;
 			error.Screenshot = screenshotFilename;
-			TakeScreenshot(driver, screenshotFilename);
-			ErrorList.Add(driver.GetType().Name + "_" + failingTest, error);
 
-			// once we've logged the error, throw it on to allow nunit etc to handle it
+            TakeScreenshot(screenshotFilename);
+            ErrorList.Add(Driver.GetType().Name + "_" + CurrentlyRunningTest, error);
+			
+            // once we've logged the error, throw it on to allow nunit etc to handle it
+            Driver.Quit();
 			throw ex;
 		}
 
 		/// <summary>
 		/// Take a screenshot of the current webpage, save to filename provided
 		/// </summary>
-		protected void TakeScreenshot(IWebDriver driver, string filename)
+		protected void TakeScreenshot(string filename)
 		{
-			ITakesScreenshot screenshotDriver = driver as ITakesScreenshot;
+            ITakesScreenshot screenshotDriver = Driver as ITakesScreenshot;
 			Screenshot screenshot = screenshotDriver.GetScreenshot();
 			screenshot.SaveAsFile(filename, ImageFormat.Png);
-		}
+        }
 	}
 }
 
