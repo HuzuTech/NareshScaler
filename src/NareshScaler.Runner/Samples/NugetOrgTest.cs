@@ -8,7 +8,8 @@ namespace NareshScaler.Runner.Samples
 	[TestFixture]
 	public class NugetOrgTest : NareshScalerTest
 	{
-		private IWebDriver driver;
+        // Delete the local IWebdriver Selenium creates so we can use the base class version
+		//private IWebDriver driver;
 		private StringBuilder verificationErrors;
 		private string baseURL;
 		

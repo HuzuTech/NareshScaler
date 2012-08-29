@@ -17,7 +17,7 @@ namespace NareshScaler.Runner
 
 	public abstract class NareshScalerTest
 	{
-        public IWebDriver Driver;
+        public IWebDriver driver;
 		public TimeSpan DefaultTimeOutValue;
 
 		public string CurrentlyRunningTest = "Not specified, set CurrentRunningTest var prior to running each test";
@@ -44,22 +44,22 @@ namespace NareshScaler.Runner
 
 			try
 			{
-                Driver = new ChromeDriver(driverDir);
+                driver = new ChromeDriver(driverDir);
 			}
 			catch (Exception)
 			{
 				// Only for master build
 				var masterLibDir = LocateDir(Directory.GetCurrentDirectory(), "lib");
-                Driver = new ChromeDriver(masterLibDir);
+                driver = new ChromeDriver(masterLibDir);
 			}
 
-            Driver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
+            driver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
 
 
 			try
 			{
                 RunSeleniumTests();
-                Driver.Quit();
+                driver.Quit();
             }
 			catch (Exception e)
 			{
@@ -76,13 +76,13 @@ namespace NareshScaler.Runner
 			if (!NareshScalerSettings.Default.FirefoxEnabled)
 				return;
 
-            Driver = new FirefoxDriver();
-            Driver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
+            driver = new FirefoxDriver();
+            driver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
 
             try
             {
                 RunSeleniumTests();
-                Driver.Quit();
+                driver.Quit();
             }
             catch (Exception e)
             {
@@ -103,21 +103,21 @@ namespace NareshScaler.Runner
 
 			try
 			{
-                Driver = new InternetExplorerDriver(driverDir);
+                driver = new InternetExplorerDriver(driverDir);
 			}
 			catch (Exception)
 			{
 				// Only for master build
 				var masterLibDir = LocateDir(Directory.GetCurrentDirectory(), "lib");
-                Driver = new InternetExplorerDriver(masterLibDir);
+                driver = new InternetExplorerDriver(masterLibDir);
 			}
 
-            Driver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
+            driver.Manage().Timeouts().ImplicitlyWait(DefaultTimeOutValue);
 
             try
             {
                 RunSeleniumTests();
-                Driver.Quit();
+                driver.Quit();
             }
             catch (Exception e)
             {
@@ -229,16 +229,16 @@ namespace NareshScaler.Runner
 			var screenshotFilename = string.Format(screenshotsDir + @"\{0}-{1}.png", CurrentlyRunningTest, DateTime.Now.ToString("MMdd-HHmm"));
 			
 			dynamic error = new ExpandoObject();
-            error.Browser = Driver.GetType().Name;
+            error.Browser = driver.GetType().Name;
             error.TestName = CurrentlyRunningTest;
 			error.Description = ex.Message;
 			error.Screenshot = screenshotFilename;
 
             TakeScreenshot(screenshotFilename);
-            ErrorList.Add(Driver.GetType().Name + "_" + CurrentlyRunningTest, error);
+            ErrorList.Add(driver.GetType().Name + "_" + CurrentlyRunningTest, error);
 			
             // once we've logged the error, throw it on to allow nunit etc to handle it
-            Driver.Quit();
+            driver.Quit();
 			throw ex;
 		}
 
@@ -247,7 +247,7 @@ namespace NareshScaler.Runner
 		/// </summary>
 		protected void TakeScreenshot(string filename)
 		{
-            ITakesScreenshot screenshotDriver = Driver as ITakesScreenshot;
+            ITakesScreenshot screenshotDriver = driver as ITakesScreenshot;
 			Screenshot screenshot = screenshotDriver.GetScreenshot();
 			screenshot.SaveAsFile(filename, ImageFormat.Png);
         }
