@@ -77,10 +77,8 @@ namespace NareshScaler.Runner.Samples
 			}
 		}
 
-		public override void RunSeleniumTests(IWebDriver webDriver)
+		public override void RunSeleniumTests()
 		{
-			driver = webDriver;
-
 			// Log running test
 			CurrentlyRunningTest = "Test_That_NareshScaler_Exists_On_NugetOrg()";
 
