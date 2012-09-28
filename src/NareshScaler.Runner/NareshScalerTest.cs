@@ -47,7 +47,7 @@ namespace NareshScaler.Runner
 		public virtual void FixtureSetup()
 		{
 			ErrorList = new Dictionary<string, dynamic>();
-			ErrorRowFormat = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><a href='{3}'>screenshot</a></td></tr>";
+			ErrorRowFormat = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><a href='file:///{3}'>screenshot</a></td></tr>";
 		}
 
 		/// <summary>
