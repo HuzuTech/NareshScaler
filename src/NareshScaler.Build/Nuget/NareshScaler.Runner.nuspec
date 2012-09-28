@@ -12,7 +12,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <summary>Naresh Scaler provides a simple way of managing and running Selenium C# Web Driver tests</summary>
         <description>Naresh Scaler provides a simple framework to run your Selenium C# WebDriver integration tests automatically using Firefox, Chrome and IE.  Just install it into an empty C# class library, and look at the sample class provided to see how it works.  Named in honour of Huzutech's QA maestro Naresh Deekonda - the man who required Selenium to scale :-)</description>
-        <releaseNotes>Update to Selenium 2.25, ChromeDriver 22, IE Driver 2.25 and add logging</releaseNotes>
+        <releaseNotes>Update ChromeDriver 23, IE Driver 2.25.3 and fix a bunch of logging bugs</releaseNotes>
         <copyright>Copyright 2012</copyright>
         <tags>selenium, webdriver test runner chromedriver firefox ie nunit nant, integration testing iedriverserver iedriver</tags>
         <dependencies>

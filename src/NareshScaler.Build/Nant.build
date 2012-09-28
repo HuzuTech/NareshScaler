@@ -21,7 +21,7 @@
 	<property name="release.configuration" value="Release" />
 
 	<!-- Manually set version, if using CCNet this will be overwritten later -->
-	<property name="version.tag" value="1.2.1.0"/>
+	<property name="version.tag" value="1.3.0.0"/>
 	<property name="company.name" value="Huzutech" />
 
 	<!-- If your projects reside in a different directory from the .sln file specify here, or leave empty if not -->
