@@ -21,8 +21,18 @@ namespace NareshScaler.Runner
 
 		public string CurrentlyRunningTest = "Not specified, set CurrentRunningTest var prior to running each test";
 
-		public string LogFileDirectory, LogFileName, ErrorRowFormat;
+		public string ErrorRowFormat;
 		public Dictionary<string, dynamic> ErrorList;
+
+		public string LogFileName
+		{
+			get { return NareshScalerSettings.Default.LogfilePath + "\\build-report" + DateTime.Now.ToString("-MMdd-HHmm") + ".html"; }
+		}
+
+		public string LogFileDirectory
+		{
+			get { return NareshScalerSettings.Default.LogfilePath; }
+		}
 
 		protected NareshScalerTest()
 		{
@@ -36,14 +46,8 @@ namespace NareshScaler.Runner
 		[TestFixtureSetUp]
 		public virtual void FixtureSetup()
 		{
-			// define the output directory for the build reports
-			LogFileDirectory = NareshScalerSettings.Default.LogfilePath;
-			LogFileName = LogFileDirectory + "\\build-report" + DateTime.Now.ToString("-MMdd-HHmm") + ".html";
 			ErrorList = new Dictionary<string, dynamic>();
 			ErrorRowFormat = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><a href='{3}'>screenshot</a></td></tr>";
-
-			if (NareshScalerSettings.Default.LoggingEnabled)
-				CreateLoggingDirs();
 		}
 
 		/// <summary>
@@ -173,6 +177,7 @@ namespace NareshScaler.Runner
             if (!NareshScalerSettings.Default.LoggingEnabled)
                 return;
 
+			CreateLoggingDirs();
 
             // get the log template file
             var html = Properties.Resources.log_template;
@@ -236,6 +241,8 @@ namespace NareshScaler.Runner
 			if (!NareshScalerSettings.Default.LoggingEnabled) 
 				return;
 
+			CreateLoggingDirs();
+
 			var screenshotsDir = LogFileDirectory + @"\screenshots";
 			var screenshotFilename = string.Format(screenshotsDir + @"\{0}-{1}.png", CurrentlyRunningTest, DateTime.Now.ToString("MMdd-HHmm"));
 			
@@ -262,6 +269,8 @@ namespace NareshScaler.Runner
 			Screenshot screenshot = screenshotDriver.GetScreenshot();
 			screenshot.SaveAsFile(filename, ImageFormat.Png);
         }
+
+
 	}
 }
 
