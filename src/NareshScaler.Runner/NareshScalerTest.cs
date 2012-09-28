@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
@@ -29,6 +28,36 @@ namespace NareshScaler.Runner
 		{
 			// Set default timeout to 5s
 			DefaultTimeOutValue = new TimeSpan(0, 0, 10);
+		}
+
+		/// <summary>
+		/// Setup method called prior to any tests being ran
+		/// </summary>
+		[TestFixtureSetUp]
+		public virtual void FixtureSetup()
+		{
+			// define the output directory for the build reports
+			LogFileDirectory = NareshScalerSettings.Default.LogfilePath;
+			LogFileName = LogFileDirectory + "\\build-report" + DateTime.Now.ToString("-MMdd-HHmm") + ".html";
+			ErrorList = new Dictionary<string, dynamic>();
+			ErrorRowFormat = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><a href='{3}'>screenshot</a></td></tr>";
+
+			if (NareshScalerSettings.Default.LoggingEnabled)
+				CreateLoggingDirs();
+		}
+
+		/// <summary>
+		/// Create directories necessary for logging
+		/// </summary>
+		private void CreateLoggingDirs()
+		{
+			if (!Directory.Exists(LogFileDirectory))
+				Directory.CreateDirectory(LogFileDirectory);
+
+			var screenshotsDir = LogFileDirectory + @"\screenshots";
+
+			if (!Directory.Exists(screenshotsDir))
+				Directory.CreateDirectory(screenshotsDir);
 		}
 
 		/// <summary>
@@ -132,18 +161,7 @@ namespace NareshScaler.Runner
         /// <param name="webDriver"></param>
         public abstract void RunSeleniumTests();
 
-        /// <summary>
-        /// Setup method called prior to any tests being ran
-        /// </summary>
-        [TestFixtureSetUp]
-        public virtual void FixtureSetup()
-        {
-            // define the output directory for the build reports
-            LogFileDirectory = NareshScalerSettings.Default.LogfilePath;
-            LogFileName = LogFileDirectory + "\\build-report" + DateTime.Now.ToString("-MMdd-HHmm") + ".html";
-            ErrorList = new Dictionary<string, dynamic>();
-            ErrorRowFormat = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td><a href='{3}'>screenshot</a></td></tr>";
-        }
+        
 
         /// <summary>
         /// TearDown method called after all tests have ran
@@ -218,14 +236,7 @@ namespace NareshScaler.Runner
 			if (!NareshScalerSettings.Default.LoggingEnabled) 
 				return;
 
-			if (!Directory.Exists(LogFileDirectory))
-				Directory.CreateDirectory(LogFileDirectory);
-
 			var screenshotsDir = LogFileDirectory + @"\screenshots";
-
-			if (!Directory.Exists(screenshotsDir))
-				Directory.CreateDirectory(screenshotsDir);
-
 			var screenshotFilename = string.Format(screenshotsDir + @"\{0}-{1}.png", CurrentlyRunningTest, DateTime.Now.ToString("MMdd-HHmm"));
 			
 			dynamic error = new ExpandoObject();
